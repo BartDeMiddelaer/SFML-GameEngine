@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SFML.GameAssets
 {
+    // Rework of
     // https://www.gamedev.net/forums/topic/693835-sfml-and-fast-pixel-drawing-in-c/
 
     static public class RenderOnSprite

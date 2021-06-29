@@ -13,15 +13,13 @@ namespace SFML.Projects.FluidDynamics
 {
     class FluidSimulation : BaseProject
     {
-        // https://www.youtube.com/watch?v=alhpH6ECFvQ
+
         // https://mikeash.com/pyblog/fluid-simulation-for-dummies.html
 
         Fluid fluid = new Fluid(GameProperties.WindowWidth, 
             0.2f, 
             0.000000008f, // How fast the smoke disepares diffusion 
             0.000000015f);
-
-
 
         Random rand = new Random();
 
