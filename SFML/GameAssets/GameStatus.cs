@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Color = SFML.Graphics.Color;
 
 namespace SFML.GameAssets
 {
@@ -16,16 +17,23 @@ namespace SFML.GameAssets
     {
         // Fps counter  -------------------
         static public Stopwatch fpsStatusInterval { get; set; } = new Stopwatch();
-
+  
         private static DateTime lastCheckTime = DateTime.Now;
         private static long frameCount = 0;
         private static double fps;
-        private static readonly Text fpsStatus = new Text {
-            
+        private static readonly Text fpsStatus = new Text
+        {
             Font = new SFML.Graphics.Font("C:/Windows/Fonts/arial.ttf"),
-            Position = new Vector2f(3,3),
-            CharacterSize = 10,
-            FillColor = SFML.Graphics.Color.Yellow
+            Position = new Vector2f(3, 3),
+            CharacterSize = 15,
+            FillColor = new Color
+            {
+                // invert color from BackGroundColor
+                R = (byte)(255 - GameProperties.BackGroundColor.R),
+                G = (byte)(255 - GameProperties.BackGroundColor.G),
+                B = (byte)(255 - GameProperties.BackGroundColor.B),
+                A = 255
+            }
         };
 
 

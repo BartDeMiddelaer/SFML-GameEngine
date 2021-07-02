@@ -63,13 +63,13 @@ namespace SFML.Projects.FluidDynamics
             return x + (y * N);
         }
 
-        void diffuse(int b, float[] x, float[] x0, float diff, float dt)
+        void Diffuse(int b, float[] x, float[] x0, float diff, float dt)
         {
             float a = dt * diff * (N - 2) * (N - 2);
-            lin_solve(b, x, x0, a, 1 + 6 * a);
+            LinSolve(b, x, x0, a, 1 + 6 * a);
         }
 
-        void lin_solve(int b, float[] x, float[] x0, float a, float c)
+        void LinSolve(int b, float[] x, float[] x0, float a, float c)
         {
             var cRecip = 1.0f / c;
     
@@ -92,11 +92,11 @@ namespace SFML.Projects.FluidDynamics
                           cRecip;
                     }
                 }
-                set_bnd(b, x);
+                SetBnd(b, x);
             }
         }
 
-        void project(float[] velocX, float[] velocY, float[] p, float[] div)
+        void Project(float[] velocX, float[] velocY, float[] p, float[] div)
         {                  
             for (int yD = 1; yD < N - 1; yD++)
             {
@@ -113,9 +113,9 @@ namespace SFML.Projects.FluidDynamics
                 }
             }
             
-            set_bnd(0, div);
-            set_bnd(0, p);
-            lin_solve(0, p, div, 1, 6);
+            SetBnd(0, div);
+            SetBnd(0, p);
+            LinSolve(0, p, div, 1, 6);
                      
             for (int yD = 1; yD < N - 1; yD++)
             {
@@ -126,11 +126,11 @@ namespace SFML.Projects.FluidDynamics
                 }
             }
             
-            set_bnd(1, velocX);
-            set_bnd(2, velocY);
+            SetBnd(1, velocX);
+            SetBnd(2, velocY);
         }
 
-        void advect(int b, float[] d, float[] d0, float[] velocX, float[] velocY, float dt)
+        void Advect(int b, float[] d, float[] d0, float[] velocX, float[] velocY, float dt)
         {
             float i0, i1, j0, j1;
 
@@ -178,10 +178,10 @@ namespace SFML.Projects.FluidDynamics
                 }
             }
 
-            set_bnd(b, d);
+            SetBnd(b, d);
         }
 
-        void set_bnd(int b, float[] x)
+        void SetBnd(int b, float[] x)
         {
 
             for (int xD = 1; xD < N - 1; xD++)
@@ -202,8 +202,7 @@ namespace SFML.Projects.FluidDynamics
         }
 
         public void Step()
-        {
-            var N = Size;
+        {       
             var visc = Viscosity;
             var diff = Diffusion;
             var dt = Dt;
@@ -214,20 +213,20 @@ namespace SFML.Projects.FluidDynamics
             var s = S;
             var density = Density;
 
-            diffuse(1, Vx0, Vx, visc, dt);
-            diffuse(2, Vy0, Vy, visc, dt);
+            Diffuse(1, Vx0, Vx, visc, dt);
+            Diffuse(2, Vy0, Vy, visc, dt);
 
-            project(Vx0, Vy0, Vx, Vy);
+            Project(Vx0, Vy0, Vx, Vy);
 
-            advect(1, Vx, Vx0, Vx0, Vy0, dt);
-            advect(2, Vy, Vy0, Vx0, Vy0, dt);
+            Advect(1, Vx, Vx0, Vx0, Vy0, dt);
+            Advect(2, Vy, Vy0, Vx0, Vy0, dt);
 
-            project(Vx, Vy, Vx0, Vy0);
-            diffuse(0, s, density, diff, dt);
-            advect(0, density, s, Vx, Vy, dt);
+            Project(Vx, Vy, Vx0, Vy0);
+            Diffuse(0, s, density, diff, dt);
+            Advect(0, density, s, Vx, Vy, dt);
         }
 
-        public void render()
+        public void Render()
         {
             for (int xD = 0; xD < N; xD++)
             {
@@ -236,8 +235,13 @@ namespace SFML.Projects.FluidDynamics
                     var x = xD;
                     var y = yD;
 
-                    var d = Density[IX(xD, yD)] > 254 ? 255 : Density[IX(xD, yD)];            
-                    RenderOnSprite.DrawToPixel(x, y, new Color(255, 0, 255,(byte)d));
+                    var d = Density[IX(xD, yD)] > 254 ? 255 : Density[IX(xD, yD)];
+
+                    RenderOnSprite.DrawSinglePixel(new Pixel {
+                        X = x, 
+                        Y = y,
+                        Color = new Color(255, 0, 255, (byte)d)
+                    });        
                 }
             }
         }   

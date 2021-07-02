@@ -34,7 +34,8 @@ namespace SFML.Projects.FluidDynamics
             // DemoTwo();
 
             fluid.Step();
-            fluid.render();
+            fluid.Render();  
+
             RenderOnSprite.Draw(window);             
         }
         void DemoOne() {

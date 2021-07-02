@@ -21,8 +21,7 @@ namespace SFML.GameAssets
         }
         private static GameFuctions instance = null;
         private static readonly object padlock = new object();
-
-        
+       
         int mousposX = 1;     
         int mousposY = 1;
 
@@ -44,7 +43,7 @@ namespace SFML.GameAssets
             mY = (int)yPixel;
             mX = (int)xPixel;
         }
-      
+    
     }
 }
 
