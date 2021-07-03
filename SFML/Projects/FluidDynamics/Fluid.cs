@@ -236,13 +236,13 @@ namespace SFML.Projects.FluidDynamics
                     var y = yD;
 
                     var d = Density[IX(xD, yD)] > 254 ? 255 : Density[IX(xD, yD)];
-                    /*
+                    
                     RenderOnSprite.DrawSinglePixel(new Pixel {
                         X = x, 
                         Y = y,
                         Color = new Color(255, 0, 255, (byte)d)
                     });   
-                    */
+                    
                 }
             }
         }   

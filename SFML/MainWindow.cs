@@ -21,7 +21,6 @@ namespace SFML
         [STAThread]
         static void Main()
         {
-            GameProperties.Project.Initialization();
             GameProperties.Window = new RenderWindow( new VideoMode {
 
                 Height = (uint)GameProperties.WindowHeight,

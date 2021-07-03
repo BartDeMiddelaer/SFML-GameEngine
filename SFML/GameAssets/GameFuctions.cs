@@ -49,6 +49,8 @@ namespace SFML.GameAssets
             mX = mousposX;
         }
 
+        public int IX(int x, int y) =>
+            x + (y * GameProperties.WindowWidth);
     }
 }
 

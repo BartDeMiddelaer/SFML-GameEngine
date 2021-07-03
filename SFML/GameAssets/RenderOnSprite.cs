@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SFML.GameAssets.GameFuctions;
+
 
 namespace SFML.GameAssets
 {
@@ -21,29 +23,30 @@ namespace SFML.GameAssets
             GameProperties.WindowWidth * GameProperties.WindowHeight)
             .ToArray();
 
-        static Texture mainTexture = new Texture((uint)GameProperties.WindowWidth, (uint)GameProperties.WindowHeight);
-        static Sprite mainViewport = new Sprite(mainTexture);
+        static Texture texture = new Texture((uint)GameProperties.WindowWidth, (uint)GameProperties.WindowHeight);
+        static Sprite viewport = new Sprite(texture);
 
-        //GameProperties.WindowWidth x GameProperties.WindowHeight pixels x 4 bytes per pixel
-
-        static byte[] pixels = new byte[GameProperties.WindowWidth * GameProperties.WindowHeight * 4];
+        // (WindowWidth x WindowHeight) x 4 bytes per pixel
+        static byte[] pixels = new byte[(GameProperties.WindowWidth * GameProperties.WindowHeight) * 4];
 
         static public void Draw(RenderWindow window)
         {
-            // DO STUFF
-            DrawStaticDemo();
+            //DrawStaticDemo();
             BufferIntoImage();
 
-            mainTexture.Update(pixels);//update the texture with the array
-            mainTexture.Smooth = SmoothImage;
-            window.Draw(mainViewport);//draw the texture over the screen  
+            // update the texture with the array
+            texture.Update(pixels);
+            texture.Smooth = SmoothImage;
 
-            ResetBuffer();
+            // draw the texture over the screen  
+            window.Draw(viewport);
 
+            // wipe
+            wipeBuffer.CopyTo(buffer, 0);
         }
         static void BufferIntoImage()
         {
-            //fill the byte array]
+            //fill the byte array
             Parallel.For(0, GameProperties.WindowWidth * GameProperties.WindowHeight, i => {
 
                 int index = i * 4;
@@ -59,41 +62,30 @@ namespace SFML.GameAssets
             for (int x = 0; x < GameProperties.WindowWidth; x++)
                 for (int y = 0; y < GameProperties.WindowHeight; y++)
                 {
-                    buffer[IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
+                    buffer[Fuctions.IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
                 }
         }
         static void mousdemo()
         {
-            GameFuctions.Fuctions.GetMousePositionBeta(out int x, out int y);
-            buffer[IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
+            Fuctions.GetMousePositionBeta(out int x, out int y);
+            buffer[Fuctions.IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
         }
 
         static public void DrawSinglePixel(Pixel pixel)
         {
-            buffer[IX(pixel.X, pixel.Y)] = pixel.Color;
+            buffer[Fuctions.IX(pixel.X, pixel.Y)] = pixel.Color;
         }
 
         static public void DrawPixelBatch(List<Pixel> batch)
         {
 
 
-        }
-
-        static void ResetBuffer() {
-
-            wipeBuffer.CopyTo(buffer,0);
-        }
-
-        static public int IX(int x, int y) =>
-            x + (y * GameProperties.WindowWidth);
-
+        } 
     }
     public struct Pixel
     {
-
         public int X { get; set; }
         public int Y { get; set; }
         public Color Color { get; set; }
     }
-
 }

@@ -9,7 +9,6 @@ namespace SFML.Projects
 {
     public class BaseProject
     {
-        public virtual void Initialization() {}
         public virtual void GameLoop(RenderWindow window) { }
         public override string ToString()
         {
