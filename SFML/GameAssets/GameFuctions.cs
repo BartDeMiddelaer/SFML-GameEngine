@@ -30,7 +30,7 @@ namespace SFML.GameAssets
             mousposX = e.X;
             mousposY = e.Y;             
         }
-        public void GetMousePosition(out int mX, out int mY) 
+        public void GetMousePosition(out int mX, out int mY)
         {
             var wSize = GameProperties.Window.Size;
 
@@ -43,7 +43,12 @@ namespace SFML.GameAssets
             mY = (int)yPixel;
             mX = (int)xPixel;
         }
-    
+        public void GetMousePositionBeta(out int mX, out int mY)
+        {
+            mY = mousposY;
+            mX = mousposX;
+        }
+
     }
 }
 

@@ -10,8 +10,8 @@ namespace SFML.GameAssets
 {
     public class GameProperties
     {
-        static public int WindowHeight { get; set; } = 180;
-        static public int WindowWidth { get; set; } = 180;
+        static public int WindowHeight { get; set; } = 1080;
+        static public int WindowWidth { get; set; } = 1920;
 
         // bitsPerPixel represents the bit depth, also know as the color depth
         // Usually you would use a value of 32 here to have good rendering

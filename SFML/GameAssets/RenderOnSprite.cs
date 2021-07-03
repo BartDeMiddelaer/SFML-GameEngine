@@ -13,11 +13,11 @@ namespace SFML.GameAssets
 
     static public class RenderOnSprite
     {
-        public static bool SmoothImage { get; set; } = false; 
+        public static bool SmoothImage { get; set; } = false;
 
-        static Color[] ScreenBuffer = new Color[GameProperties.WindowWidth * GameProperties.WindowHeight];
-        static Color[] ScreenWhiper = Enumerable.Repeat(
-            GameProperties.BackGroundColor, 
+        static Color[] buffer = new Color[GameProperties.WindowWidth * GameProperties.WindowHeight];
+        static Color[] wipeBuffer = Enumerable.Repeat(
+            GameProperties.BackGroundColor,
             GameProperties.WindowWidth * GameProperties.WindowHeight)
             .ToArray();
 
@@ -31,7 +31,7 @@ namespace SFML.GameAssets
         static public void Draw(RenderWindow window)
         {
             // DO STUFF
-            //DrawStaticDemo();
+            DrawStaticDemo();
             BufferIntoImage();
 
             mainTexture.Update(pixels);//update the texture with the array
@@ -39,49 +39,57 @@ namespace SFML.GameAssets
             window.Draw(mainViewport);//draw the texture over the screen  
 
             ResetBuffer();
-            
-        }                
+
+        }
         static void BufferIntoImage()
-        {    
+        {
             //fill the byte array]
             Parallel.For(0, GameProperties.WindowWidth * GameProperties.WindowHeight, i => {
 
                 int index = i * 4;
-                pixels[index + 0] = ScreenBuffer[index / 4].R;
-                pixels[index + 1] = ScreenBuffer[index / 4].G;
-                pixels[index + 2] = ScreenBuffer[index / 4].B;
-                pixels[index + 3] = ScreenBuffer[index / 4].A;
+                pixels[index + 0] = buffer[index / 4].R;
+                pixels[index + 1] = buffer[index / 4].G;
+                pixels[index + 2] = buffer[index / 4].B;
+                pixels[index + 3] = buffer[index / 4].A;
 
-            });       
+            });
         }
         static void DrawStaticDemo()
         {
             for (int x = 0; x < GameProperties.WindowWidth; x++)
                 for (int y = 0; y < GameProperties.WindowHeight; y++)
-                {                 
-                    ScreenBuffer[IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
+                {
+                    buffer[IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
                 }
+        }
+        static void mousdemo()
+        {
+            GameFuctions.Fuctions.GetMousePositionBeta(out int x, out int y);
+            buffer[IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
         }
 
         static public void DrawSinglePixel(Pixel pixel)
-        {        
-            ScreenBuffer[IX(pixel.X, pixel.Y)] = pixel.Color;
+        {
+            buffer[IX(pixel.X, pixel.Y)] = pixel.Color;
         }
 
         static public void DrawPixelBatch(List<Pixel> batch)
-        { 
-        
+        {
+
 
         }
 
-        static void ResetBuffer() =>              
-            ScreenBuffer = ScreenWhiper;
+        static void ResetBuffer() {
+
+            wipeBuffer.CopyTo(buffer,0);
+        }
 
         static public int IX(int x, int y) =>
             x + (y * GameProperties.WindowWidth);
-        
+
     }
-    public struct Pixel {
+    public struct Pixel
+    {
 
         public int X { get; set; }
         public int Y { get; set; }

@@ -30,11 +30,11 @@ namespace SFML.Projects.FluidDynamics
  
         public override void GameLoop(RenderWindow window)
         {
-            DemoOne();
+            // DemoOne();
             // DemoTwo();
 
-            fluid.Step();
-            fluid.Render();  
+            // fluid.Step();
+            // fluid.Render();  
 
             RenderOnSprite.Draw(window);             
         }
