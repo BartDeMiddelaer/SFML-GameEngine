@@ -67,25 +67,14 @@ namespace SFML.GameAssets
         }
         static void mousdemo()
         {
-            Fuctions.GetMousePositionBeta(out int x, out int y);
+            Fuctions.GetMousePosition(out int x, out int y);
             buffer[Fuctions.IX(x, y)] = new Color((byte)(y + x), (byte)(y), (byte)(y - x));
         }
 
-        static public void DrawSinglePixel(Pixel pixel)
+        static public void DrawSinglePixel(int x, int y, Color color)
         {
-            buffer[Fuctions.IX(pixel.X, pixel.Y)] = pixel.Color;
+            buffer[Fuctions.IX(x, y)] = color;
         }
-
-        static public void DrawPixelBatch(List<Pixel> batch)
-        {
-
-
-        } 
     }
-    public struct Pixel
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Color Color { get; set; }
-    }
+
 }

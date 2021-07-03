@@ -14,8 +14,8 @@ namespace SFML.GameAssets
         // bitsPerPixel represents the bit depth, also know as the color depth
         // Usually you would use a value of 32 here to have good rendering
         static public uint WindowBitsPerPixel { get; set; } = 32;
-        static public int WindowHeight { get; set; } = 150;
-        static public int WindowWidth { get; set; } = 150;
+        static public int WindowHeight { get; set; } = 250;
+        static public int WindowWidth { get; set; } = 250;
         static public string Titel { get; set; } = "GameEngine: SFMLOpenGl";
         static public bool EnableVsync { get; set; } = true;
         static public Styles WindowStyle { get; set; } = Styles.Default;

@@ -71,15 +71,12 @@ namespace SFML.Projects.FluidDynamics
 
         void LinSolve(int b, float[] x, float[] x0, float a, float c)
         {
-            var cRecip = 1.0f / c;
-    
+            var cRecip = 1.0f / c;  
 
-            // make paralel
             for (int i = 0; i < Iter; i++)
             {
+                Parallel.For(1, N - 1, yD => {
 
-                for (int yD = 1; yD < N - 1; yD++)
-                {
                     for (int xD = 1; xD < N - 1; xD++)
                     {
                         x[IX(xD, yD)] =
@@ -91,14 +88,14 @@ namespace SFML.Projects.FluidDynamics
                                 x[IX(xD, yD - 1)])) *
                           cRecip;
                     }
-                }
+                });               
                 SetBnd(b, x);
             }
         }
 
         void Project(float[] velocX, float[] velocY, float[] p, float[] div)
-        {                  
-            for (int yD = 1; yD < N - 1; yD++)
+        {
+            Parallel.For(1, N - 1, yD =>
             {
                 for (int xD = 1; xD < N - 1; xD++)
                 {
@@ -111,20 +108,20 @@ namespace SFML.Projects.FluidDynamics
                         ) / N;
                     p[IX(xD, yD)] = 0;
                 }
-            }
+            });
             
             SetBnd(0, div);
             SetBnd(0, p);
             LinSolve(0, p, div, 1, 6);
-                     
-            for (int yD = 1; yD < N - 1; yD++)
+
+            Parallel.For(1, N - 1, yD =>
             {
                 for (int xD = 1; xD < N - 1; xD++)
                 {
                     velocX[IX(xD, yD)] -= 0.5f * (p[IX(xD + 1, yD)] - p[IX(xD - 1, yD)]) * N;
                     velocY[IX(xD, yD)] -= 0.5f * (p[IX(xD, yD + 1)] - p[IX(xD, yD - 1)]) * N;
                 }
-            }
+            });
             
             SetBnd(1, velocX);
             SetBnd(2, velocY);
@@ -236,13 +233,8 @@ namespace SFML.Projects.FluidDynamics
                     var y = yD;
 
                     var d = Density[IX(xD, yD)] > 254 ? 255 : Density[IX(xD, yD)];
-                    
-                    RenderOnSprite.DrawSinglePixel(new Pixel {
-                        X = x, 
-                        Y = y,
-                        Color = new Color(255, 0, 255, (byte)d)
-                    });   
-                    
+                    RenderOnSprite.DrawSinglePixel(xD, yD, new Color(255, 0, 255, (byte)d));
+                                     
                 }
             }
         }   

@@ -38,12 +38,12 @@ namespace SFML.GameAssets
             double xPixel = Math.Round((GameProperties.WindowWidth * xProcent) / 100, 0);
 
             double yProcent = (mousposY * 100) / wSize.Y;
-            double yPixel = Math.Round((GameProperties.WindowWidth * yProcent) / 100, 0);
+            double yPixel = Math.Round((GameProperties.WindowHeight * yProcent) / 100, 0);
 
             mY = (int)yPixel;
             mX = (int)xPixel;
         }
-        public void GetMousePositionBeta(out int mX, out int mY)
+        public void GetMousePositionAbsolute(out int mX, out int mY)
         {
             mY = mousposY;
             mX = mousposX;
