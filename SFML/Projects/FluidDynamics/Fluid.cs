@@ -69,6 +69,8 @@ namespace SFML.Projects.FluidDynamics
             LinSolve(b, x, x0, a, 1 + 6 * a);
         }
 
+        // todo
+        // calculate on cuda ------------------------------------------
         void LinSolve(int b, float[] x, float[] x0, float a, float c)
         {
             var cRecip = 1.0f / c;  
@@ -126,6 +128,8 @@ namespace SFML.Projects.FluidDynamics
             SetBnd(1, velocX);
             SetBnd(2, velocY);
         }
+
+        // ------------------------------------------------------------
 
         void Advect(int b, float[] d, float[] d0, float[] velocX, float[] velocY, float dt)
         {

@@ -29,7 +29,7 @@ namespace SFML
 
             },$"{GameProperties.Titel} <--> {GameProperties.Project}" , GameProperties.WindowStyle);
 
-            //GameProperties.Window.SetVerticalSyncEnabled(GameProperties.EnableVsync);
+            GameProperties.Window.SetVerticalSyncEnabled(GameProperties.EnableVsync);
             GameProperties.Window.Closed += ( sender, e) => GameProperties.Window.Close();
             GameStatus.fpsStatusInterval.Start();
 
